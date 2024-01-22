@@ -29,6 +29,7 @@ finish-args:
   # System D-Bus Access
   - --system-talk-name=org.freedesktop.UPower
   - --system-talk-name=org.freedesktop.login1
+  - --system-talk-name=org.freedesktop.timedate1
 modules:
   - name: lsb_release
     buildsystem: simple
@@ -42,11 +43,22 @@ modules:
         url: https://github.com/thkukuk/lsb-release_os-release.git
         tag: v3.3
 
+  - name: python3-dbus-python
+    buildsystem: simple
+    build-commands:
+      - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
+        --prefix=${FLATPAK_DEST} "dbus-python" --no-build-isolation
+    sources:
+      - type: file
+        url: https://files.pythonhosted.org/packages/b1/5c/ccfc167485806c1936f7d3ba97db6c448d0089c5746ba105b6eb22dba60e/dbus-python-1.2.18.tar.gz
+        sha256: 92bdd1e68b45596c833307a5ff4b217ee6929a1502f5341bae28fd120acf7260
+
   - name: slack
     buildsystem: simple
     build-commands:
       - install -Dm755 apply_extra ${FLATPAK_DEST}/bin
       - install -Dm644 ${FLATPAK_ID}.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
+      - install -Dm755 get-timezone.py ${FLATPAK_DEST}/bin
       - install -Dm644 slack.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
       - install -Dm755 slack.sh ${FLATPAK_DEST}/bin/${FLATPAK_ID}
       - install -Dm644 slack.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
@@ -72,6 +84,8 @@ modules:
           version-pattern: Slack (\\d+\\.\\d+\\.\\d+)
       - type: file
         path: com.slack.Slack.metainfo.xml
+      - type: file
+        path: get-timezone.py
       - type: file
         path: slack.desktop
       - type: file
