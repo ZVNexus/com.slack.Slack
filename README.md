@@ -9,6 +9,17 @@ flatpak install flathub com.slack.Slack
 flatpak run com.slack.Slack
 ```
 
+### Making flags persistent
+
+Below is an example slack-flags.conf file that defines the flags --disable-gpu-shader-disk-cache:
+
+```
+~/.var/app/com.slack.Slack/config/slack-flags.conf
+
+# This line will be ignored.
+--disable-gpu-shader-disk-cache
+```
+
 ### Wayland
 
 This package enables the flags to run on Wayland, however it is opt-in. To opt-in run:
