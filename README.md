@@ -22,10 +22,10 @@ Below is an example slack-flags.conf file that defines the flags --disable-gpu-s
 
 ### Wayland
 
-This package enables the flags to run on Wayland, however it is opt-in. To opt-in run:
+This package defaults to Wayland on KDE as it has achieved parity, however there are some remaining
+regressions for GNOME. If you want to opt-in anyways, add the following persistent flags:
 
-```sh
-flatpak override --user --socket=wayland com.slack.Slack
 ```
-
-To opt-out do the same with `--nosocket=wayland`.
+--enable-wayland-ime
+--ozone-platform-hint=auto
+```
